@@ -1,0 +1,26 @@
+.CardDetails{
+  width: 350px;
+  padding: 10px;
+  border: 1px solid rgb(133, 133, 133);
+}
+
+.CardDetails-row{
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  color: black;
+}
+
+.CardDetails-info{
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+.CardDetails-functional{
+  width: 70px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px 0 10px;
+}

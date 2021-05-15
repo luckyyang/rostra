@@ -23,7 +23,18 @@ import {
   useUserProvider,
 } from "./hooks";
 // import Hints from "./Hints";
-import { ExampleUI, Hints, Subgraph } from "./views";
+import {
+  ExampleUI,
+  Hints,
+  Subgraph,
+  CourseDonationList,
+  SchoolList,
+  CreateCourse,
+  CreateDonationEvent,
+  SchoolDetail,
+  CreateSchool,
+  SchoolDonationList
+} from "./views";
 /*
     Welcome to 🏗 scaffold-eth !
 
@@ -295,6 +306,78 @@ function App(props) {
       {networkDisplay}
       <BrowserRouter>
         <Menu style={{ textAlign: "center" }} selectedKeys={[route]} mode="horizontal">
+          <Menu.Item key="/school-list">
+            <Link
+              onClick={() => {
+                setRoute("/school-list");
+              }}
+              to="/school-list"
+            >
+              School List
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/create-school">
+            <Link
+              onClick={() => {
+                setRoute("/create-school");
+              }}
+              to="/create-school"
+            >
+              Create School
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/create-donation-event">
+            <Link
+              onClick={() => {
+                setRoute("/create-donation-event");
+              }}
+              to="/create-donation-event"
+            >
+              Create Donation Event
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/create-course">
+            <Link
+              onClick={() => {
+                setRoute("/create-course");
+              }}
+              to="/create-course"
+            >
+              Create Course
+            </Link>
+          </Menu.Item>
+          {/* <Menu.Item key="/course-donation-list">
+            <Link
+              onClick={() => {
+                setRoute("/course-donation-list");
+              }}
+              to="/course-donation-list"
+            >
+              Course Donation List
+            </Link>
+          </Menu.Item> */}
+          {/* <Menu.Item key="/school-detail">
+            <Link
+              onClick={() => {
+                setRoute("/school-detail");
+              }}
+              to="/school-detail"
+            >
+              School Detail
+            </Link>
+          </Menu.Item> */}
+          {/* <Menu.Item key="/school-donation-list">
+            <Link
+              onClick={() => {
+                setRoute("/school-donation-list");
+              }}
+              to="/school-donation-list"
+            >
+              School Donation List
+            </Link>
+          </Menu.Item> */}
+
+
           <Menu.Item key="/">
             <Link
               onClick={() => {
@@ -348,6 +431,112 @@ function App(props) {
         </Menu>
 
         <Switch>
+          <Route path="/course-donation-list">
+            <CourseDonationList
+              address={address}
+              userProvider={userProvider}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              setPurposeEvents={setPurposeEvents}
+            />
+          </Route>
+          <Route path="/school-list">
+            <SchoolList
+              address={address}
+              userProvider={userProvider}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              setPurposeEvents={setPurposeEvents}
+            />
+          </Route>
+          <Route path="/create-course">
+            <CreateCourse
+              address={address}
+              userProvider={userProvider}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              setPurposeEvents={setPurposeEvents}
+            />
+          </Route>
+          <Route path="/create-donation-event">
+            <CreateDonationEvent
+              address={address}
+              userProvider={userProvider}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              setPurposeEvents={setPurposeEvents}
+            />
+          </Route>
+          <Route path="/school-detail">
+            <SchoolDetail
+              address={address}
+              userProvider={userProvider}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              setPurposeEvents={setPurposeEvents}
+            />
+          </Route>
+          <Route path="/create-school">
+            <CreateSchool
+              address={address}
+              userProvider={userProvider}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              setPurposeEvents={setPurposeEvents}
+            />
+          </Route>
+          <Route path="/school-donation-list">
+            <SchoolDonationList
+              address={address}
+              userProvider={userProvider}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              setPurposeEvents={setPurposeEvents}
+            />
+          </Route>
+
           <Route exact path="/">
             {/*
                 🎛 this scaffolding is full of commonly used components
