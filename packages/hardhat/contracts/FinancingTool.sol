@@ -128,8 +128,6 @@ contract FinancingTool {
         _;
     }
 
-
-
     function vote(uint256 _proposal, uint256 _inAmount) public payable {
         require(_inAmount > 0, "zero");
         uint256 index = proposalMap[_proposal];
@@ -146,6 +144,7 @@ contract FinancingTool {
 
         _vote(msg.sender, index, _proposal, _inAmount);
     }
+
     //_index 从1开始
     function testVote(address _addr, uint256 _index, uint256 _proposal, uint256 _inAmount) public {
         _vote(_addr, _index, _proposal, _inAmount);
@@ -317,11 +316,11 @@ contract FinancingTool {
         return y;
     }
 
-receive()external payable   {
-if (tokenAddr != emptyAddr) {
-revert("not allowed");
-}else {
-emit AddExtraAmount(msg.sender, msg.value);
-}
-}
+    receive() external payable {
+        if (tokenAddr != emptyAddr) {
+            revert("not allowed");
+        } else {
+            emit AddExtraAmount(msg.sender, msg.value);
+        }
+    }
 }
