@@ -459,6 +459,7 @@ function App(props) {
               readContracts={readContracts}
               purpose={purpose}
               setPurposeEvents={setPurposeEvents}
+              setRoute={setRoute}
             />
           </Route>
           <Route path="/create-course">
@@ -491,7 +492,7 @@ function App(props) {
               setPurposeEvents={setPurposeEvents}
             />
           </Route>
-          <Route path="/school-detail">
+          <Route path="/school-detail/:schoolId">
             <SchoolDetail
               address={address}
               userProvider={userProvider}

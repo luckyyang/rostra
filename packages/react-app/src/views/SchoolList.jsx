@@ -16,6 +16,7 @@ import {
   useOnBlock,
   useUserProvider,
 } from "../hooks";
+import { BrowserRouter, Link, Route } from "react-router-dom";
 
 export default function ExampleUI({
   purpose,
@@ -29,6 +30,7 @@ export default function ExampleUI({
   tx,
   readContracts,
   writeContracts,
+  setRoute,
 }) {
   const [donationNum, setDonationNum] = useState(0);
 
@@ -59,7 +61,14 @@ export default function ExampleUI({
         </div> */}
         <Card>
           <div>
-            Name: {univ.name}
+          <Link
+              onClick={() => {
+                setRoute(`/school-detail/${schoolNum}`);
+              }}
+              to={`/school-detail/${schoolNum}`}
+            >
+              Name: {univ.name}
+            </Link>
           </div>
           <div>
             Mission: {univ.introduce}
