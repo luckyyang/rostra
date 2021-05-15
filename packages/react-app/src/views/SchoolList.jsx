@@ -52,6 +52,12 @@ export default function ExampleUI({
 
   const univ = useContractReader(readContracts, "UniversityFactory", "allUniversity", [schoolId]);
   console.log(' ========== ' , univ)
+  const schoolAddress1 = useContractReader(readContracts, "UniversityFactory", "idToUniversity", [1]);
+  console.log(' ========== schoolAddress: ' , schoolAddress)
+
+  const univ1 = useContractReader(readContracts, "UniversityFactory", "allUniversity", [1]);
+  console.log(' ========== ' , univ1)
+
   if (!univ) return <div>No School Found</div>
   return (
     <div>
@@ -65,11 +71,11 @@ export default function ExampleUI({
         </div> */}
         <Card>
           <div>
-          <Link
+            <Link
               onClick={() => {
-                setRoute(`/school-detail/${schoolNum}`);
+                setRoute(`/school-detail/0`);
               }}
-              to={`/school-detail/${schoolNum}`}
+              to={`/school-detail/0`}
             >
               Name: {univ.name}
             </Link>
@@ -81,16 +87,6 @@ export default function ExampleUI({
             Creator: {univ.owner}
           </div>
           School Address: {schoolAddress}
-          <Divider />
-          <Button
-            onClick={() => {
-              /* look how you call setPurpose on your contract: */
-              tx(writeContracts.UniversityFactory.createDonate(schoolAddress, '0', '250'));
-            }}
-          >
-            Create Donation
-          </Button>
-
           <Divider />
 
           <div style={{ margin: 8 }}>
@@ -108,6 +104,53 @@ export default function ExampleUI({
                 tx(
                   writeContracts.UniversityFactory.donate(
                     schoolAddress,
+                    1,
+                    '0x0000000000000000000000000000000000000000',
+                    1,
+                    { value: parseEther("0.0001") }
+                  )
+                );
+              }}
+            >
+              Donate
+            </Button>
+          </div>
+        </Card>
+
+        <Card>
+          <div>
+            <Link
+              onClick={() => {
+                setRoute(`/school-detail/1`);
+              }}
+              to={`/school-detail/1`}
+            >
+              Name: {univ1 && univ1.name}
+            </Link>
+          </div>
+          <div>
+            Mission: {univ1 && univ1.introduce}
+          </div>
+          <div>
+            Creator: {univ1 && univ1.owner}
+          </div>
+          School Address: {schoolAddress1}
+          <Divider />
+
+          <div style={{ margin: 8 }}>
+            <Input
+              placeholder={"Donation Amount"}
+              onChange={e => {
+                setDonationNum(e.target.value);
+              }}
+            />
+            <Button
+              onClick={() => {
+                console.log("schoolAddress: ", schoolAddress1);
+
+                tx(
+                  writeContracts.UniversityFactory.donate(
+                    schoolAddress1,
                     1,
                     '0x0000000000000000000000000000000000000000',
                     1,
