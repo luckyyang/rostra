@@ -19,7 +19,8 @@ export default function ExampleUI({
   readContracts,
   writeContracts,
 }) {
-  const [newPurpose, setNewPurpose] = useState("loading...");
+  const [startTime, setStartTime] = useState("loading...");
+  const [endTime, setEndTime] = useState("loading...");
 
   return (
     <div>
@@ -27,23 +28,30 @@ export default function ExampleUI({
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
       <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
-        <h2>Example UI:</h2>
-        <h4>purpose: {purpose}</h4>
+        <h2>Create A Donation Event</h2>
         <Divider />
         <div style={{ margin: 8 }}>
           <Input
+            placeholder={"Start Time"}
             onChange={e => {
-              setNewPurpose(e.target.value);
+              setStartTime(e.target.value);
+            }}
+          />
+          <Input
+            placeholder={"End Time"}
+            onChange={e => {
+              setEndTime(e.target.value);
             }}
           />
           <Button
             onClick={() => {
-              console.log("newPurpose", newPurpose);
+              console.log("startTime, endTime: ", startTime, endTime);
               /* look how you call setPurpose on your contract: */
-              tx(writeContracts.YourContract.setPurpose(newPurpose));
+              // todo
+              tx(writeContracts.YourContract.setPurpose(startTime, endTime));
             }}
           >
-            Set Purpose
+            Confirm
           </Button>
         </div>
         <Divider />
