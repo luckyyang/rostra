@@ -47,6 +47,8 @@ export default function ExampleUI({
   //   }
   // }
   // console.log('schoolList---: ', schoolList);
+  const schoolAddress = useContractReader(readContracts, "UniversityFactory", "idToUniversity", [schoolId]);
+  console.log(' ========== schoolAddress: ' , schoolAddress)
 
   const univ = useContractReader(readContracts, "UniversityFactory", "allUniversity", [schoolId]);
   console.log(' ========== ' , univ)
@@ -56,7 +58,7 @@ export default function ExampleUI({
       {/*
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
-      <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
+      <div style={{ padding: 16, width: 600, margin: "auto", marginTop: 64 }}>
         <h2>School List</h2>
         {/* <div>
           {schoolList}
@@ -78,7 +80,19 @@ export default function ExampleUI({
           <div>
             Creator: {univ.owner}
           </div>
+          School Address: {schoolAddress}
           <Divider />
+          <Button
+            onClick={() => {
+              /* look how you call setPurpose on your contract: */
+              tx(writeContracts.UniversityFactory.createDonate(schoolAddress, '0', '250'));
+            }}
+          >
+            Create Donation
+          </Button>
+
+          <Divider />
+
           <div style={{ margin: 8 }}>
             <Input
               placeholder={"Donation Amount"}
@@ -88,12 +102,21 @@ export default function ExampleUI({
             />
             <Button
               onClick={() => {
-                console.log("schoolNum, donationNum: ", schoolNum, donationNum);
-                /* look how you call setPurpose on your contract: */
-                tx(writeContracts.UniversityFactory.donate(schoolNum, 0, donationNum));
+                console.log("donationNum: ", donationNum);
+                console.log("schoolAddress: ", schoolAddress);
+
+                tx(
+                  writeContracts.UniversityFactory.donate(
+                    schoolAddress,
+                    1,
+                    '0x0000000000000000000000000000000000000000',
+                    1,
+                    { value: parseEther("0.0001") }
+                  )
+                );
               }}
             >
-              Confirm
+              Donate
             </Button>
           </div>
         </Card>
