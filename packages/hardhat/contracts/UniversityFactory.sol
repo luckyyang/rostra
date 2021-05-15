@@ -9,6 +9,11 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 
 import './University.sol';
 
+interface IUniversity {
+    function donate(uint _id, address _erc20, uint _amount) external payable;
+    function createDonate(uint _startBlockNumber, uint _endBlockNumber) external;
+}
+
 // 大学工厂创建大学
 contract UniversityFactory is Ownable {
 
@@ -51,9 +56,12 @@ contract UniversityFactory is Ownable {
         return allUniversity.length;
     }
 
-    function donate(uint _id, address _erc20, uint _amount) external {
-        IERC20(_erc20).safeTransferFrom(msg.sender, address(this), _amount);
-        IERC20(_erc20).safeTransfer(idToUniversity[_id], _amount);
+    function createDonate(address uni, uint _startBlockNumber, uint _endBlockNumber) external {
+        IUniversity(uni).createDonate(_startBlockNumber, _endBlockNumber);
+    }
+
+    function donate(address uni, uint _id, address _erc20, uint _amount) external payable {
+        IUniversity(uni).donate{value: msg.value}(_id, _erc20, _amount);
     }
 
     function deploy(

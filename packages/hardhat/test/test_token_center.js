@@ -11,7 +11,7 @@ describe("TokenCenter Contract", function() {
     await weth.deployed();
   });
 
-  xit('创建大学', async function() {
+  it('创建大学', async function() {
     UniFactory = await ethers.getContractFactory('UniversityFactory');
     uniFactory = await UniFactory.deploy();
 
@@ -26,7 +26,7 @@ describe("TokenCenter Contract", function() {
     console.log(await uniFactory.universityLength());
   });
 
-  xit('创建课程', async function() {
+  it('创建课程', async function() {
     UniFactory = await ethers.getContractFactory('CourseFactory');
     uniFactory = await UniFactory.deploy();
 
@@ -63,6 +63,10 @@ describe("TokenCenter Contract", function() {
 
     addr = await uniFactory.idToUniversity(0);
     console.log(addr);
+
+    await uniFactory.connect(alice).createDonate(addr, 0, 30);
+    await weth.approve(uniFactory.address, ethers.utils.parseEther('10'));
+    await uniFactory.donate(addr, 0, weth.address, ethers.utils.parseEther('10'), { value: 10 });
 
     University = await ethers.getContractFactory("University");
     university = await University.attach(addr);
