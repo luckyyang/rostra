@@ -189,7 +189,6 @@ contract FinancingTool {
         emit AddProposal(_proposal);
     }
 
-
     function addExtraAmount(address _maker, uint256 _inAmount) public payable {
         if (tokenAddr != emptyAddr) {
             require(msg.value == 0, "eth 0");
@@ -219,7 +218,6 @@ contract FinancingTool {
         return (p.name, p.amount, p.voteCount, p.userAddrArr.length);
     }
 
-
     function getUserVoteNum(address _addr, uint256 _proposal) public view returns (uint256, uint256){
         UserVote memory usVote = userVoteMap[_proposal][_addr];
         return (usVote.amount, usVote.count);
@@ -237,7 +235,6 @@ contract FinancingTool {
         }
     }
 
-
     function numPower(uint256 _n) public pure returns (uint256){
         return 2 ** _n;
 
@@ -248,7 +245,6 @@ contract FinancingTool {
     }
 
     /**
-
         绿色：
         项目A：1*1 = 1
         项目B：
@@ -269,7 +265,6 @@ contract FinancingTool {
         B: 32 + 8/14 * 150 = 117.714285714
         C: 4 + 2/14 * 150 = 25.428571429
         D: 9 + 3/14 * 150 = 41.142857143
-
     */
     function getTotalCount() public view returns (uint256){
         uint256 total;
@@ -296,7 +291,6 @@ contract FinancingTool {
 
 
     }
-
 
     function viewBalance(address erc, address holder) internal view returns (uint256) {
         if (erc == emptyAddr) {
