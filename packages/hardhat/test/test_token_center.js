@@ -5,7 +5,7 @@ describe("TokenCenter Contract", function() {
   beforeEach(async function() {
     [owner, alice, bob, miner1, miner2] = await ethers.getSigners();
 
-    // FIL
+    // WETH
     WETH = await ethers.getContractFactory("MockERC20");
     weth = await WETH.deploy(owner, 'WETH', ethers.utils.parseEther("1000000000000"));
     await weth.deployed();
@@ -69,6 +69,6 @@ describe("TokenCenter Contract", function() {
     await weth.approve(university.address, ethers.utils.parseEther('10'));
     await university.donate(0, weth.address, ethers.utils.parseEther('10'));
     r = await university.idToAllDonate(0);
-    console.log(r / 1e18 + '')
+    console.log(r / 1e18 + '');
   });
 });
