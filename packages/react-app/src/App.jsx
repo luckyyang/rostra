@@ -476,6 +476,7 @@ function App(props) {
               readContracts={readContracts}
               purpose={purpose}
               setPurposeEvents={setPurposeEvents}
+              setRoute={setRoute}
             />
           </Route>
           <Route path="/create-donation-event">
