@@ -327,16 +327,6 @@ function App(props) {
               Create School
             </Link>
           </Menu.Item>
-          <Menu.Item key="/create-donation-event">
-            <Link
-              onClick={() => {
-                setRoute("/create-donation-event");
-              }}
-              to="/create-donation-event"
-            >
-              Create Donation Event
-            </Link>
-          </Menu.Item>
           <Menu.Item key="/create-course">
             <Link
               onClick={() => {
@@ -345,6 +335,16 @@ function App(props) {
               to="/create-course"
             >
               Create Course
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/create-donation-event">
+            <Link
+              onClick={() => {
+                setRoute("/create-donation-event");
+              }}
+              to="/create-donation-event"
+            >
+              Create Donation Event
             </Link>
           </Menu.Item>
           {/* <Menu.Item key="/course-donation-list">
@@ -378,7 +378,7 @@ function App(props) {
             </Link>
           </Menu.Item> */}
 
-
+        {/*
           <Menu.Item key="/">
             <Link
               onClick={() => {
@@ -428,7 +428,7 @@ function App(props) {
             >
               Subgraph
             </Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
 
         <Switch>
