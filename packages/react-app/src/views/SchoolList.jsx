@@ -36,7 +36,9 @@ export default function ExampleUI({
 
   const schoolNumBN = useContractReader(readContracts, "UniversityFactory", "universityLength");
   // if (!schoolNumBN) return "loading";
-  const schoolNum = schoolNumBN && schoolNumBN.toNumber() || 0;
+  const schoolNum = schoolNumBN && schoolNumBN.toNumber() || 1;
+  console.log('====== schoolNumBN && schoolNumBN.toNumber(): ', schoolNumBN && schoolNumBN.toNumber())
+  const schoolId = 0
   // const schoolList = [];
   // if (schoolNum) {
   //   for (let index = 0; index < schoolNum.toNumber(); index++) {
@@ -46,9 +48,9 @@ export default function ExampleUI({
   // }
   // console.log('schoolList---: ', schoolList);
 
-  const univ = useContractReader(readContracts, "UniversityFactory", "allUniversity", [schoolNum]);
+  const univ = useContractReader(readContracts, "UniversityFactory", "allUniversity", [schoolId]);
   console.log(' ========== ' , univ)
-  if (!univ) return <div>Loading...</div>
+  if (!univ) return <div>No School Found</div>
   return (
     <div>
       {/*
@@ -88,7 +90,7 @@ export default function ExampleUI({
               onClick={() => {
                 console.log("schoolNum, donationNum: ", schoolNum, donationNum);
                 /* look how you call setPurpose on your contract: */
-                tx(writeContracts.UniversityFactory.donate(schoolNum, donationNum));
+                tx(writeContracts.UniversityFactory.donate(schoolNum, 0, donationNum));
               }}
             >
               Confirm
