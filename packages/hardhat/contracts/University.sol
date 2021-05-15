@@ -61,22 +61,29 @@ contract University is Ownable {
         }));
     }
 
-    function donate(uint _id, address _erc20, uint _amount) external {
+    function donate(uint _id, address _erc20, uint _amount) external payable {
         require(block.number < donates[_id].endBlockNumber, 'donate has over');
-        IERC20(_erc20).safeTransferFrom(msg.sender, address(this), _amount);
 
-        donates[_id].amount = donates[_id].amount.add(_amount);
+        uint amount;
+        if (msg.value > 0) {
+            amount = msg.value;
+        } else {
+            IERC20(_erc20).safeTransferFrom(msg.sender, address(this), _amount);
+            amount = _amount;
+        }
+
+        donates[_id].amount = donates[_id].amount.add(amount);
         uint uniId = IUniversityFactory(factory).addrToUniversity(address(this));
-        idToAllDonate[uniId] = idToAllDonate[uniId].add(_amount);
+        idToAllDonate[uniId] = idToAllDonate[uniId].add(amount);
     }
 
-    function withdrawDonate(uint _id, address _erc20) external {
+    function withdrawDonate(uint _id, address _erc20) external payable {
         require(block.number > donates[_id].endBlockNumber, 'donate has not over');
         require(donates[_id].owner == msg.sender, 'no auth access');
         require(donates[_id].amount > 0, 'no token can withdraw');
 
-        IERC20(_erc20).safeTransfer(donates[_id].owner, donates[_id].amount);
-
+        // IERC20(_erc20).safeTransfer(donates[_id].owner, donates[_id].amount);
+        payable(donates[_id].owner).send(donates[_id].amount);
         donates[_id].amount = 0;
     }
 }

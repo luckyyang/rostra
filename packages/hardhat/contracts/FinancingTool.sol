@@ -1,4 +1,5 @@
-pragma solidity ^0.6.6;
+// SPDX-License-Identifier: MIT
+pragma solidity 0.6.12;
 
 interface IERC20 {
 
@@ -60,6 +61,8 @@ library SafeMath {
 }
 
 contract FinancingTool {
+    using SafeMath for uint256;
+
     function safeTransfer(address token, address to, uint256 value) internal {
         (bool success, bytes memory data) = token.call(abi.encodeWithSelector(0xa9059cbb, to, value));
         require(success && (data.length == 0 || abi.decode(data, (bool))), 'TransferHelper: TRANSFER_FAILED');
@@ -79,9 +82,6 @@ contract FinancingTool {
     address owner = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     uint256 ONE_VOTE_ETH = 1 ether;
 
-    using SafeMath for uint256;
-
-
     struct Proposal {
         uint256 name;
         uint256 amount;
@@ -96,13 +96,12 @@ contract FinancingTool {
 
     Proposal[]  proposals;
     mapping(uint256 => uint256) proposalMap;
-    //提案id => 用户地址 => 票数
+    // 提案id => 用户地址 => 票数
     mapping(uint256 => mapping(address => UserVote)) userVoteMap;
 
     uint256 startTime;
     uint256 endTime;
-    uint256 public userVoteAmount;//只是投票用户
-
+    uint256 public userVoteAmount; //只是投票用户
 
     constructor() public {
         //test
@@ -112,27 +111,30 @@ contract FinancingTool {
         endTime = now + 10 days;
     }
 
-
     modifier onlyOwner() {
         require(tx.origin == owner, "Ownable: caller is not the owner");
         _;
     }
 
-
-    modifier checkStart(){
+    modifier checkStart() {
         require(now >= startTime, "not start");
         _;
     }
-    modifier checkEnd(){
+
+    modifier checkEnd() {
         require(endTime >= now, "not end");
         _;
+    }
+
+    function setTokenAddr(address _token) external onlyOwner {
+        tokenAddr = _token;
     }
 
     function vote(uint256 _proposal, uint256 _inAmount) public payable {
         require(_inAmount > 0, "zero");
         uint256 index = proposalMap[_proposal];
         require(index > 0, "not exists");
-        //-1
+        // -1
 
         if (tokenAddr != emptyAddr) {
             require(msg.value == 0, "eth 0");
@@ -145,13 +147,13 @@ contract FinancingTool {
         _vote(msg.sender, index, _proposal, _inAmount);
     }
 
-    //_index 从1开始
+    // _index 从1开始
     function testVote(address _addr, uint256 _index, uint256 _proposal, uint256 _inAmount) public {
         _vote(_addr, _index, _proposal, _inAmount);
     }
 
     function _vote(address _addr, uint256 _index, uint256 _proposal, uint256 _inAmount) internal {
-        //-1
+        // -1
         Proposal storage p = proposals[_index - 1];
         p.amount = p.amount.add(_inAmount);
         userVoteAmount = userVoteAmount.add(_inAmount);
@@ -171,13 +173,12 @@ contract FinancingTool {
             p.voteCount = p.voteCount.add(newCount);
             usVote.amount = newAmount;
             usVote.count = newCount;
-
         }
-
 
         emit Vote(_addr, _proposal, usVote.count, _inAmount);
     }
 
+    // 添加提案
     function addProposal(uint256 _proposal) public onlyOwner {
         require(proposalMap[_proposal] == 0, "exists");
         Proposal memory p;
@@ -208,22 +209,22 @@ contract FinancingTool {
         safeTransfer(_tokenAddr, msg.sender, _amount);
     }
 
-    function getProposalLength() public view returns (uint256){
+    function getProposalLength() public view returns (uint256) {
         return proposals.length;
     }
 
-    function getProposal(uint256 _index) public view returns (uint256, uint256, uint256, uint256){
+    function getProposal(uint256 _index) public view returns (uint256, uint256, uint256, uint256) {
         require(_index < proposals.length, "out");
         Proposal  memory p = proposals[_index];
         return (p.name, p.amount, p.voteCount, p.userAddrArr.length);
     }
 
-    function getUserVoteNum(address _addr, uint256 _proposal) public view returns (uint256, uint256){
+    function getUserVoteNum(address _addr, uint256 _proposal) public view returns (uint256, uint256) {
         UserVote memory usVote = userVoteMap[_proposal][_addr];
         return (usVote.amount, usVote.count);
     }
 
-    function getProposalUser(uint256 _proposal, uint256 start, uint256 len) public view returns (address[] memory arr){
+    function getProposalUser(uint256 _proposal, uint256 start, uint256 len) public view returns (address[] memory arr) {
         Proposal  memory p = proposals[proposalMap[_proposal]];
         uint256 end = start.add(len);
         require(end <= p.userAddrArr.length, "out range");
@@ -235,12 +236,12 @@ contract FinancingTool {
         }
     }
 
-    function numPower(uint256 _n) public pure returns (uint256){
+    function numPower(uint256 _n) public pure returns (uint256) {
         return 2 ** _n;
 
     }
 
-    function hash(bytes memory _b) public pure returns (bytes32){
+    function hash(bytes memory _b) public pure returns (bytes32) {
         return keccak256(_b);
     }
 
@@ -275,7 +276,6 @@ contract FinancingTool {
     }
 
     function getResult(uint256 _proposal) public view returns (uint256, uint256){
-
         uint ba = viewBalance(tokenAddr, address(this));
         require(ba >= userVoteAmount, "eee");
         Proposal memory p = proposals[proposalMap[_proposal]];
@@ -288,8 +288,6 @@ contract FinancingTool {
         } else {
             return (p.amount, p.voteCount);
         }
-
-
     }
 
     function viewBalance(address erc, address holder) internal view returns (uint256) {
