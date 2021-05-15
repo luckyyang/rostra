@@ -76,6 +76,7 @@ contract FinancingTool {
     event AddProposal(uint256 _proposals);
     event Vote(address indexed _from, uint256 indexed _proposal, uint256 _lastCount, uint256 _amount);
     event AddExtraAmount(address indexed _from, uint256 _amount);
+    event Withdraw(address indexed _from, uint256 _proposals, uint256 _amount, uint256 _count);
 
     address tokenAddr;
     address emptyAddr = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
@@ -86,7 +87,9 @@ contract FinancingTool {
         uint256 name;
         uint256 amount;
         uint256 voteCount;
+        address owner;
         address[] userAddrArr;
+        uint8 isEnd;//0,1
     }
 
     struct UserVote {
@@ -120,9 +123,8 @@ contract FinancingTool {
         require(now >= startTime, "not start");
         _;
     }
-
-    modifier checkEnd() {
-        require(endTime >= now, "not end");
+    modifier checkEnd(){
+        require(now >= endTime, "not end");
         _;
     }
 
@@ -150,6 +152,10 @@ contract FinancingTool {
     // _index 从1开始
     function testVote(address _addr, uint256 _index, uint256 _proposal, uint256 _inAmount) public {
         _vote(_addr, _index, _proposal, _inAmount);
+    }
+
+    function testSetEndTime(uint256 _time) public {
+        endTime = _time;
     }
 
     function _vote(address _addr, uint256 _index, uint256 _proposal, uint256 _inAmount) internal {
@@ -184,6 +190,7 @@ contract FinancingTool {
         Proposal memory p;
         p.name = _proposal;
         p.voteCount = 0;
+        p.owner = msg.sender;
 
         proposals.push(p);
         proposalMap[_proposal] = proposals.length;
@@ -199,6 +206,16 @@ contract FinancingTool {
             _inAmount = msg.value;
         }
         emit AddExtraAmount(_maker, _inAmount);
+    }
+
+    function withdrawProposal(uint256 _proposal) public checkEnd {
+        Proposal storage p = proposals[proposalMap[_proposal]];
+        require(p.owner == msg.sender, "now owner");
+        require(p.isEnd == 0, "withdrawn");
+        (uint256 amount,uint256 count) = getResult(_proposal);
+        _withdrawToken(tokenAddr, msg.sender, amount);
+        p.isEnd = 1;
+        emit Withdraw(msg.sender, _proposal, amount, count);
     }
 
     function withdraw() public onlyOwner {
@@ -278,7 +295,7 @@ contract FinancingTool {
     function getResult(uint256 _proposal) public view returns (uint256, uint256){
         uint ba = viewBalance(tokenAddr, address(this));
         require(ba >= userVoteAmount, "eee");
-        Proposal memory p = proposals[proposalMap[_proposal]];
+        Proposal memory p = proposals[proposalMap[_proposal] -1];
         if (ba > userVoteAmount) {
             uint256 total = getTotalCount();
             uint256 extraTotalAmount = ba.sub(userVoteAmount);
@@ -287,6 +304,16 @@ contract FinancingTool {
             return (p.amount.add(pExtraAmount), p.voteCount);
         } else {
             return (p.amount, p.voteCount);
+        }
+
+
+    }
+
+    function _withdrawToken(address erc, address payable _to, uint256 _value) internal {
+        if (erc == emptyAddr) {
+            _to.transfer(_value);
+        } else {
+            safeTransfer(erc, _to, _value);
         }
     }
 
