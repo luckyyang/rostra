@@ -23,6 +23,10 @@ export default function ExampleUI({
   const [startBlock, setStartBlock] = useState("loading...");
   const [endBlock, setEndBlock] = useState("loading...");
 
+  const [courseAddress, setCourseAddress] = useState("loading...");
+  const [startBlockCourse, setStartBlockCourse] = useState("loading...");
+  const [endBlockCourse, setEndBlockCourse] = useState("loading...");
+
   return (
     <div>
       {/*
@@ -59,8 +63,40 @@ export default function ExampleUI({
             Create Donation
           </Button>
         </div>
-
       </div>
+
+      {/* course */}
+      {/* <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
+        <h2>Create A Donation Event</h2>
+        <Divider />
+        <div style={{ margin: 8 }}>
+          <Input
+            placeholder={"Course Address"}
+            onChange={e => {
+              setCourseAddress(e.target.value);
+            }}
+          />
+          <Input
+            placeholder={"Start Block"}
+            onChange={e => {
+              setStartBlockCourse(e.target.value);
+            }}
+          />
+          <Input
+            placeholder={"End Block"}
+            onChange={e => {
+              setEndBlockCourse(e.target.value);
+            }}
+          />
+          <Button
+            onClick={() => {
+              tx(writeContracts.CourseFactory.createDonate(courseAddress, startBlockCourse, endBlockCourse));
+            }}
+          >
+            Create Donation
+          </Button>
+        </div>
+      </div> */}
     </div>
   );
 }

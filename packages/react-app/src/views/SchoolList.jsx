@@ -58,7 +58,6 @@ export default function ExampleUI({
   const univ1 = useContractReader(readContracts, "UniversityFactory", "allUniversity", [1]);
   console.log(' ========== ' , univ1)
 
-  if (!univ) return <div>No School Found</div>
   return (
     <div>
       {/*
@@ -77,14 +76,14 @@ export default function ExampleUI({
               }}
               to={`/school-detail/0`}
             >
-              Name: {univ.name}
+              Name: {univ && univ.name}
             </Link>
           </div>
           <div>
-            Mission: {univ.introduce}
+            Mission: {univ && univ.introduce}
           </div>
           <div>
-            Creator: {univ.owner}
+            Creator: {univ && univ.owner}
           </div>
           School Address: {schoolAddress}
           <Divider />

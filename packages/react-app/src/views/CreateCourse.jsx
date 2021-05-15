@@ -131,7 +131,7 @@ export default function ExampleUI({
                   console.log("courseAddress: ", courseAddress);
 
                   tx(
-                    writeContracts.UniversityFactory.donate(
+                    writeContracts.CourseFactory.donate(
                       courseAddress,
                       1,
                       '0x0000000000000000000000000000000000000000',
@@ -142,6 +142,24 @@ export default function ExampleUI({
                 }}
               >
                 Donate
+              </Button>
+              <Button
+                onClick={() => {
+                  console.log("donationNum: ", donationNum);
+                  console.log("courseAddress: ", courseAddress);
+
+                  tx(
+                    writeContracts.CourseFactory.withdrawDonate(
+                      courseAddress,
+                      1,
+                      '0x0000000000000000000000000000000000000000',
+                      1,
+                      { value: parseEther("0.0001") }
+                    )
+                  );
+                }}
+              >
+                Withdraw
               </Button>
             </div>
           </Card>
@@ -178,7 +196,7 @@ export default function ExampleUI({
                   console.log("courseAddress: ", courseAddress1);
 
                   tx(
-                    writeContracts.UniversityFactory.donate(
+                    writeContracts.CourseFactory.donate(
                       courseAddress1,
                       1,
                       '0x0000000000000000000000000000000000000000',
@@ -189,6 +207,24 @@ export default function ExampleUI({
                 }}
               >
                 Donate
+              </Button>
+              <Button
+                onClick={() => {
+                  console.log("donationNum: ", donationNum);
+                  console.log("courseAddress: ", courseAddress);
+
+                  tx(
+                    writeContracts.CourseFactory.withdrawDonate(
+                      courseAddress,
+                      1,
+                      '0x0000000000000000000000000000000000000000',
+                      1,
+                      { value: parseEther("0.0001") }
+                    )
+                  );
+                }}
+              >
+                Withdraw
               </Button>
             </div>
           </Card>
