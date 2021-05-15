@@ -46,6 +46,8 @@ describe("TokenCenter Contract", function() {
   });
 
   it('捐赠测试', async function() {
+    await weth.transfer(alice.address, ethers.utils.parseEther('20'));
+
     UniFactory = await ethers.getContractFactory('UniversityFactory');
     uniFactory = await UniFactory.deploy();
 
@@ -65,10 +67,24 @@ describe("TokenCenter Contract", function() {
     University = await ethers.getContractFactory("University");
     university = await University.attach(addr);
 
-    await university.createDonate(0, 20);
+    await university.connect(alice).createDonate(0, 16);
     await weth.approve(university.address, ethers.utils.parseEther('10'));
-    await university.donate(0, weth.address, ethers.utils.parseEther('10'));
+    await university.connect(owner).donate(0, weth.address, ethers.utils.parseEther('10'));
     r = await university.idToAllDonate(0);
     console.log(r / 1e18 + '');
+
+    await weth.approve(university.address, ethers.utils.parseEther('10'));
+    await weth.approve(university.address, ethers.utils.parseEther('10'));
+    await weth.approve(university.address, ethers.utils.parseEther('10'));
+    await weth.approve(university.address, ethers.utils.parseEther('10'));
+
+    await university.connect(alice).withdrawDonate(0, weth.address);
+    console.log((await weth.balanceOf(owner.address)) / 1e18);
+
+    r = await university.idToAllDonate(0);
+    console.log(r / 1e18 + '');
+
+    r = await university.donates(0);
+    console.log(r.amount);
   });
 });
