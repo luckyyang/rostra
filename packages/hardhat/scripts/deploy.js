@@ -18,6 +18,9 @@ const main = async () => {
   // const examplePriceOracle = await deploy("ExamplePriceOracle")
   // const smartContractWallet = await deploy("SmartContractWallet",[exampleToken.address,examplePriceOracle.address])
 
+  await deploy("UniversityFactory");
+  await deploy("CourseFactory");
+
   /*
   //If you want to send value to an address from the deployer
   const deployerWallet = ethers.provider.getSigner()

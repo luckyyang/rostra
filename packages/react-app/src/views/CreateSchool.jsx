@@ -48,7 +48,7 @@ export default function ExampleUI({
               console.log("name, mission: ", name, mission);
               /* look how you call setPurpose on your contract: */
               // todo
-              tx(writeContracts.YourContract.setPurpose(name, mission));
+              tx(writeContracts.UniversityFactory.createUniversity(name, mission));
             }}
           >
             Confirm

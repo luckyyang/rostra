@@ -16,3 +16,6 @@ export { default as ThemeSwitch } from "./ThemeSwitch";
 export { default as Timeline } from "./Timeline";
 export { default as TokenBalance } from "./TokenBalance";
 export { default as Wallet } from "./Wallet";
+export { default as CardList } from "./Card/CardList";
+export { default as CardDetails } from "./Card/CardDetails";
+export { default as SchoolCard } from "./SchoolCard";
