@@ -1,0 +1,28 @@
+.CardList{
+  width: 235px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.CardList-name{
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.CardList-description{
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.CardList-functional{
+  width: 100px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(133, 133, 133);
+  cursor: pointer;
+}
