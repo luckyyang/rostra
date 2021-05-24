@@ -16,6 +16,7 @@ import {
   useOnBlock,
   useUserProvider,
 } from "../hooks";
+import { BrowserRouter, Link, Route } from "react-router-dom";
 
 export default function ExampleUI({
   purpose,
@@ -29,10 +30,10 @@ export default function ExampleUI({
   tx,
   readContracts,
   writeContracts,
-  schoolNum
+  schoolId
 }) {
-  const univ = useContractReader(readContracts, "UniversityFactory", "allUniversity", [0]);
-  console.log('=====univ, schoolNum, readContracts: ', univ, schoolNum, readContracts)
+  const univ = useContractReader(readContracts, "UniversityFactory", "allUniversity", [schoolId], 3);
+  console.log('=====univ, schoolId, readContracts: ', univ, schoolId, readContracts)
   return (
     <div>
       {/*
@@ -40,7 +41,20 @@ export default function ExampleUI({
       */}
       <div style={{ border: "1px solid #cccccc", padding: 16, width: 400, margin: "auto", marginTop: 64 }}>
         <div>
-          {readContracts ? univ : 'No read contract found'}
+          <Link
+            onClick={() => {
+              // setRoute(`/school-detail/0`);
+            }}
+            to={`/school-detail/0`}
+          >
+            Name: {univ && univ.name}
+          </Link>
+        </div>
+        <div>
+          Mission: {univ && univ.introduce}
+        </div>
+        <div>
+          Creator: {univ && univ.owner}
         </div>
       </div>
     </div>
