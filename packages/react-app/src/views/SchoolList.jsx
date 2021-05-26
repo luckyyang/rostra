@@ -34,7 +34,7 @@ export default function ExampleUI({
 }) {
   const [donationNum, setDonationNum] = useState(0);
 
-  const schoolNumBN = useContractReader(readContracts, "UniversityFactory", "universityLength");
+  const schoolNumBN = useContractReader(readContracts, "UniversityFactory", "universityLength", 10000);
   const schoolNum = schoolNumBN && schoolNumBN.toNumber() || 0;
   const schoolList = [];
   if (schoolNum) {
@@ -46,7 +46,7 @@ export default function ExampleUI({
 
   return (
     <div style={{ padding: 16, width: 600, margin: "auto", marginTop: 64 }}>
-      <h2>School List</h2>
+      <h2>School List({schoolNum})</h2>
       <div>
         {schoolList}
       </div>
