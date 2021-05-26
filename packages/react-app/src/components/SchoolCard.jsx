@@ -34,6 +34,9 @@ export default function ExampleUI({
 }) {
   const univ = useContractReader(readContracts, "UniversityFactory", "allUniversity", [schoolId], 10000);
   console.log('=====univ, schoolId, readContracts: ', univ, schoolId, readContracts)
+  const schoolAddress = useContractReader(readContracts, "UniversityFactory", "idToUniversity", [schoolId], 10000);
+  console.log(' ========== schoolAddress: ' , schoolAddress)
+
   return (
     <div style={{ border: "1px solid #cccccc", padding: 16, marginTop: 64 }}>
       <div>
@@ -48,6 +51,9 @@ export default function ExampleUI({
       </div>
       <div>
         Mission: {univ && univ.introduce}
+      </div>
+      <div>
+        School Address: {schoolAddress}
       </div>
       <div>
         Creator: {univ && univ.owner}
