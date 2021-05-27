@@ -29,6 +29,7 @@ import {
   Subgraph,
   CourseDonationList,
   SchoolList,
+  CourseList,
   CreateCourse,
   CreateDonationEvent,
   SchoolDetail,
@@ -317,6 +318,16 @@ function App(props) {
               School List
             </Link>
           </Menu.Item>
+          <Menu.Item key="/course-list">
+            <Link
+              onClick={() => {
+                setRoute("/course-list");
+              }}
+              to="/course-list"
+            >
+              Course List
+            </Link>
+          </Menu.Item>
           <Menu.Item key="/create-school">
             <Link
               onClick={() => {
@@ -449,6 +460,22 @@ function App(props) {
           </Route>
           <Route path="/school-list">
             <SchoolList
+              address={address}
+              userProvider={userProvider}
+              mainnetProvider={mainnetProvider}
+              localProvider={localProvider}
+              yourLocalBalance={yourLocalBalance}
+              price={price}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+              purpose={purpose}
+              setPurposeEvents={setPurposeEvents}
+              setRoute={setRoute}
+            />
+          </Route>
+          <Route path="/course-list">
+            <CourseList
               address={address}
               userProvider={userProvider}
               mainnetProvider={mainnetProvider}

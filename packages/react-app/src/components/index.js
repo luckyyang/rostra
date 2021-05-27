@@ -19,3 +19,4 @@ export { default as Wallet } from "./Wallet";
 export { default as CardList } from "./Card/CardList";
 export { default as CardDetails } from "./Card/CardDetails";
 export { default as SchoolCard } from "./SchoolCard";
+export { default as CourseCard } from "./CourseCard";
