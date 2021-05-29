@@ -39,7 +39,14 @@ export default function ExampleUI({
   const schoolList = [];
   if (schoolNum) {
     for (let index = 0; index < schoolNum; index++) {
-      const element = <SchoolCard key={index} schoolId={index} readContracts={readContracts} />
+      const element = <SchoolCard
+        key={index}
+        schoolId={index}
+        userProvider={userProvider}
+        tx={tx}
+        writeContracts={writeContracts}
+        readContracts={readContracts}
+      />
       schoolList.push(element)
     }
   }
