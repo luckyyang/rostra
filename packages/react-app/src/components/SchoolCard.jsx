@@ -17,7 +17,7 @@ import {
   useUserProvider,
 } from "../hooks";
 import { BrowserRouter, Link, Route } from "react-router-dom";
-import universityJSON from '../contracts/University'
+import universityAbi from '../contracts/University.abi'
 
 export default function ExampleUI({
   purpose,
@@ -39,7 +39,7 @@ export default function ExampleUI({
   const schoolAddress = useContractReader(readContracts, "UniversityFactory", "idToUniversity", [schoolId], 10000);
   console.log(' ========== schoolAddress: ' , schoolAddress)
 
-  const universityContract = useExternalContractLoader(userProvider, schoolAddress, universityJSON.abi);
+  const universityContract = useExternalContractLoader(userProvider, schoolAddress, universityAbi);
   const totalDonationBN = useContractReader({ University: universityContract }, "University", "idToAllDonate", [schoolId]);
   const totalDonation = totalDonationBN && formatEther(totalDonationBN) || 0
   console.log(' ========== totalDonation: ' , totalDonation)
@@ -58,6 +58,9 @@ export default function ExampleUI({
       </div>
       <div>
         Mission: {univ && univ.introduce}
+      </div>
+      <div>
+        School Id: {schoolId}
       </div>
       <div>
         School Address: {schoolAddress}
