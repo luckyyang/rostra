@@ -34,6 +34,7 @@ export default function ExampleUI({
   schoolId
 }) {
   const [donationNum, setDonationNum] = useState(0);
+  const [donationRoundNum, setDonationRoundNum] = useState(0);
   const univ = useContractReader(readContracts, "UniversityFactory", "allUniversity", [schoolId], 10000);
   console.log('=====univ, schoolId, readContracts: ', univ, schoolId, readContracts)
   const schoolAddress = useContractReader(readContracts, "UniversityFactory", "idToUniversity", [schoolId], 10000);
@@ -69,7 +70,15 @@ export default function ExampleUI({
         Creator: {univ && univ.owner}
       </div>
       <div>
-      totalDonation: {totalDonation}
+        Total Donation: {totalDonation}
+      </div>
+      <div style={{ margin: 8 }}>
+        <Input
+          placeholder={"Donation Round Number"}
+          onChange={e => {
+            setDonationRoundNum(e.target.value);
+          }}
+        />
       </div>
       <div style={{ margin: 8 }}>
         <Input
@@ -84,7 +93,7 @@ export default function ExampleUI({
             tx(
               writeContracts.UniversityFactory.donate(
                 schoolAddress,
-                0,
+                donationRoundNum,
                 '0x0000000000000000000000000000000000000000',
                 parseEther(donationNum),
                 { value: parseEther(donationNum) }
@@ -93,6 +102,21 @@ export default function ExampleUI({
           }}
         >
           Donate
+        </Button>
+
+        <Button
+            onClick={() => {
+              console.log(' donationRoundNum: ', donationRoundNum)
+              tx(
+                writeContracts.UniversityFactory.withdrawDonate(
+                  schoolAddress,
+                  donationRoundNum,
+                  '0x0000000000000000000000000000000000000000'
+                )
+              );
+            }}
+          >
+            Withdraw
         </Button>
       </div>
     </div>
