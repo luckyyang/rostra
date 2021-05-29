@@ -12,6 +12,7 @@ import './University.sol';
 interface IUniversity {
     function donate(uint _id, address _erc20, uint _amount) external payable;
     function createDonate(uint _startBlockNumber, uint _endBlockNumber) external;
+    function withdrawDonate(uint _id, address _erc20) external;
 }
 
 // 大学工厂创建大学
@@ -62,6 +63,10 @@ contract UniversityFactory is Ownable {
 
     function donate(address uni, uint _id, address _erc20, uint _amount) external payable {
         IUniversity(uni).donate{value: msg.value}(_id, _erc20, _amount);
+    }
+
+    function withdrawDonate(address uni, uint _id, address _erc20) external {
+        IUniversity(uni).withdrawDonate(_id, _erc20);
     }
 
     function deploy(
