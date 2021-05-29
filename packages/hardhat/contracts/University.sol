@@ -50,13 +50,13 @@ contract University is Ownable {
     }
 
     function createDonate(
-        uint _startBlockNumber, 
+        uint _startBlockNumber,
         uint _endBlockNumber
     )
         external
     {
         donates.push(Donate({
-            owner: msg.sender,
+            owner: tx.origin,
             startBlockNumber: _startBlockNumber,
             endBlockNumber: _endBlockNumber,
             amount: 0
@@ -64,7 +64,7 @@ contract University is Ownable {
     }
 
     function donate(uint _id, address _erc20, uint _amount) external payable {
-        require(block.number < donates[_id].endBlockNumber, 'donate has over');
+        require(block.number <= donates[_id].endBlockNumber, 'donate has over');
 
         uint amount;
         if (msg.value > 0) {
@@ -79,9 +79,9 @@ contract University is Ownable {
         idToAllDonate[uniId] = idToAllDonate[uniId].add(amount);
     }
 
-    function withdrawDonate(uint _id, address _erc20) external payable {
+    function withdrawDonate(uint _id, address _erc20) external {
         require(block.number > donates[_id].endBlockNumber, 'donate has not over');
-        require(donates[_id].owner == msg.sender, 'no auth access');
+        require(donates[_id].owner == tx.origin, 'no auth access');
         require(donates[_id].amount > 0, 'no token can withdraw');
 
         // IERC20(_erc20).safeTransfer(donates[_id].owner, donates[_id].amount);
