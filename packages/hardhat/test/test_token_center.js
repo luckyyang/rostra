@@ -64,7 +64,7 @@ describe("TokenCenter Contract", function() {
     addr = await uniFactory.idToUniversity(0);
     console.log(addr);
 
-    await uniFactory.connect(alice).createDonate(addr, 0, 30);
+    await uniFactory.connect(alice).createDonate(addr, 0, 100);
     await weth.approve(uniFactory.address, ethers.utils.parseEther('10'));
     await uniFactory.donate(addr, 0, weth.address, ethers.utils.parseEther('10'), { value: 10 });
 
