@@ -106,6 +106,7 @@ contract FinancingTool {
     uint256 endTime;
     uint256 public userVoteAmount; //只是投票用户
 
+    // todo add params for constructor
     constructor() public {
         //test
         owner = msg.sender;
@@ -185,6 +186,8 @@ contract FinancingTool {
     }
 
     // 添加提案
+    // todo: add course address
+    // function addProposal(uint256 _proposal, address _course) public onlyOwner {
     function addProposal(uint256 _proposal) public onlyOwner {
         require(proposalMap[_proposal] == 0, "exists");
         Proposal memory p;

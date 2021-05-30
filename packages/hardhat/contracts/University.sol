@@ -42,6 +42,8 @@ contract University is Ownable {
     Donate[] public donates;
     uint public allDonate;
     uint public allMatchDonation;
+    // todo
+    // address[] financingTools;
 
     mapping(uint => uint) public idToAllDonate;
 
@@ -55,6 +57,7 @@ contract University is Ownable {
     )
         external
     {
+        // new FinancingTool
         donates.push(Donate({
             owner: tx.origin,
             startBlockNumber: _startBlockNumber,
@@ -62,6 +65,9 @@ contract University is Ownable {
             amount: 0
         }));
     }
+    // todo
+    // function getCurrentDonationAddress
+    // function getCurrentDonationRoundNumber => financingTools.length
 
     function donate(uint _id, address _erc20, uint _amount) external payable {
         require(block.number <= donates[_id].endBlockNumber, 'donate has over');
@@ -77,8 +83,12 @@ contract University is Ownable {
         donates[_id].amount = donates[_id].amount.add(amount);
         uint uniId = IUniversityFactory(factory).addrToUniversity(address(this));
         idToAllDonate[uniId] = idToAllDonate[uniId].add(amount);
+        // todo
+        // financingTool.deposit(amount);
     }
 
+    // delete me
+    // uint _amount
     function withdrawDonate(uint _id, address _erc20) external {
         require(block.number > donates[_id].endBlockNumber, 'donate has not over');
         require(donates[_id].owner == tx.origin, 'no auth access');
