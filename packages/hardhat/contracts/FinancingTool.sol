@@ -107,6 +107,8 @@ contract FinancingTool {
     uint256 public userVoteAmount; //只是投票用户
 
     // todo add params for constructor
+    uint256 public extraAmount;
+
     constructor() public {
         //test
         owner = msg.sender;
@@ -146,7 +148,6 @@ contract FinancingTool {
             require(msg.value > 0, "eth 00");
             _inAmount = msg.value;
         }
-
         _vote(msg.sender, index, _proposal, _inAmount);
     }
 
@@ -208,6 +209,7 @@ contract FinancingTool {
             require(msg.value > 0, "eth 00");
             _inAmount = msg.value;
         }
+        extraAmount = extraAmount.add(_inAmount);
         emit AddExtraAmount(_maker, _inAmount);
     }
 
@@ -296,7 +298,7 @@ contract FinancingTool {
     }
 
     function getResult(uint256 _proposal) public view returns (uint256, uint256){
-        uint ba = viewBalance(tokenAddr, address(this));
+        uint ba = userVoteAmount.add(extraAmount);
         require(ba >= userVoteAmount, "eee");
         Proposal memory p = proposals[proposalMap[_proposal] -1];
         if (ba > userVoteAmount) {
@@ -338,11 +340,7 @@ contract FinancingTool {
         return y;
     }
 
-    receive() external payable {
-        if (tokenAddr != emptyAddr) {
-            revert("not allowed");
-        } else {
-            emit AddExtraAmount(msg.sender, msg.value);
-        }
+    receive()external payable   {
+        revert("not allowed");
     }
 }
